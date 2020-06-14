@@ -1,0 +1,65 @@
+EDA
+• get comfortable with the data
+• find magic features
+Do EDA first. Do not immediately dig into modelling.
+
+Get domain knowledge
+– It helps to deeper understand the problem
+• Check if the data is intuitive
+– And agrees with domain knowledge
+• Understand how the data was generated
+– As it is crucial to set up a proper validation
+
+Two things to do with anonymized features:
+– Try to decode the features
+• Guess the true meaning of the feature
+– Guess the feature types
+• Each type needs its own preprocessing
+
+VISUALIZATIONS
+Histograms:
+plt.hist(x)
+Plot (index versus value):
+plt.plot(x, ‘.’)
+Statistics:
+df.describe()
+x.mean()
+x.var()
+Other tools:
+x.value_counts()
+x.isnull()
+
+plt.scatter(x1, x2)
+pd.scatter_matrix(df)
+df.corr(), plt.matshow( … )
+df.mean().sort_values().plot(style=’.’)
+
+• Explore individual features
+• Histogram
+• Plot (index vs value)
+• Statistics
+• Explore feature relations
+• Pairs
+− Scatter plot, scatter matrix
+− Corrplot
+• Groups
+− Corrplot + clustering
+− Plot (index vs feature statistics)
+
+
+DATA CLEANUP
+train.nunique(axis=1) == 1
+traintest.T.drop_duplicates()
+for f in categorical_feats:
+   traintest[f] =raintest[f].factorize()
+   traintest.T.drop_duplicates()
+
+
+Visualization tools
+Seaborn
+Plotly
+Bokeh
+ggplot
+Graph visualization with NetworkX
+Others
+Biclustering algorithms for sorting corrplots

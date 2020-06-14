@@ -1,0 +1,11 @@
+Split should be done on time.
+-     In real life we don’t have information from future
+-     In competitions first thing to look: train/public/private split, is it on time?
+Even when split by time, features may contain information about future.
+-     User history in CTR tasks
+-     Weather
+==================================
+
+Perfect score script by Oleg Trott -- used to probe leaderboard
+Page about data leakages on Kaggle
+A​nother page about data leakages on Kaggle
