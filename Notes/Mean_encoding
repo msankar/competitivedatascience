@@ -1,0 +1,43 @@
+Label encoding gives random order. No correlation with
+target
+2. Mean encoding helps to separate zeros from ones
+
+Ways to use target variable
+Goods - number of ones in a group,
+Bads - number of zeros
+ likelihood = goods / (good + bad )
+ weight of evidence = ln (goods/bad)
+ count = goods
+ diff = goods - bads
+==================================
+ Regularization
+
+ 1. CrossVal (CV) loop inside training data;
+ • Robust and intuitive
+• Usually decent results with 4-5 folds across different datasets
+• Need to be careful with extreme situations like LOO
+• Perfect feature for LOO scheme
+• Target variable leakage is still present even for KFold scheme
+
+2. Smoothing;
+Alpha controls the amount of regularization
+• Only works together with some other regularization method
+Smoothing
+(mean(target) * nrows+globalmean*alpha) / (nrows+alpha)
+
+3. Adding random noise;
+Noise degrades the quality of encoding
+• How much noise should we add?
+• Usually used together with LOO
+
+4. Sorting and calculating expanding mean.
+Least amount of leakage
+• No hyper parameters
+• Irregular encoding quality
+• Built - in in CatBoost
+There are a lot ways to regularize mean encodings
+• Unending battle with target variable leakage
+• CV loop or Expanding mean for practical tasks
+
+
+
