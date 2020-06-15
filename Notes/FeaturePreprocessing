@@ -1,0 +1,108 @@
+Feature preprocessing and generation numeric
+
+* Scaling 
+	** minmax scaler (x-min)/(max-min)
+	** standard scaler (x-mean)/std
+* Outliers
+	** Clip features 1-99 % 
+* Rank
+	** spaces between proper sorted values to be equal
+* log transform np.log(1+x)
+* np.sqrt (x + 2/3)
+* concatenate data from diff pre-processings
+* fractional feature price = 2.99 fractional part = 0.99
+====================================
+Non-tree based model depend on scaling
+tree-based does not depend
+Scaling and Rank for numeric features:
+a. Tree-based models doesn't depend on them
+b. Non-tree-based models hugely depend on them
+2. Most often used preprocessings are:
+a. MinMaxScaler - to [0,1]
+b. StandardScaler - to mean==0, std==1
+c. Rank - sets spaces between sorted values to be equal
+d. np.log(1+x) and np.sqrt(1+x)
+3. Feature generation is powered by:
+a. Prior knowledge
+b. Exploratory data analysis
+=======================================
+Ordinal features
+	* label encoding
+	* frequency encoding
+Categorical features
+Values in ordinal features are sorted in some meaningful
+order
+2. Label encoding maps categories to numbers
+3. Frequency encoding maps categories to their frequencies
+4. Label and Frequency encodings are often used for treebased models
+5. One-hot encoding is often used for non-tree-based models
+6. Interactions of categorical features can help linear models
+and KNN
+========================================
+DATETIME & COORDS
+
+1. Datetime
+a. Periodicity
+b. Time since row-independent/dependent event
+c. Difference between dates
+2. Coordinates
+a. Interesting places from train/test data or additional data
+b. Centers of clusters
+c. Aggregated statistics
+========================================
+HANDLING MISSING VALUES
+
+1. The choice of method to fill NaN depends on the
+situation
+2. Usual way to deal with missing values is to replace them
+with -999, mean or median
+3. Missing values already can be replaced with something
+by organizers
+4. Binary feature “isnull” can be beneficial
+5. In general, avoid filling nans before feature generation
+6. Xgboost can handle NaN
+=========================================
+FEATURE EXTRACTION FROM TEXT
+Pipeline of applying BOW
+1. Preprocessing:
+Lowercase, stemming, lemmatization, stopwords
+2. Bag of words:
+Ngrams can help to use local context
+3. Postprocessing: TFiDF
+=========================================
+Word2Vec, CNN
+
+
+BOW and w2v comparison
+1. Bag of words
+a. Very large vectors
+b. Meaning of each value in vector is known
+2. Word2vec
+a. Relatively small vectors
+b. Values in vector can be interpreted only in some cases
+c. The words with similar meaning often have similar
+embeddings
+
+Feature extraction from text and images
+1. Texts
+a.Preprocessing
+i. Lowercase, stemming, lemmarization, stopwords
+b.Bag of words
+i. Huge vectors
+ii. Ngrams can help to use local context
+iii. TFiDF can be of use as postprocessing
+c.Word2vec
+i. Relatively small vectors
+ii. Pretrained models
+2. Images
+a. Features can be extracted from different layers
+b. Careful choosing of pretrained network can help
+c. Finetuning allows to refine pretrained models
+d. Data augmentation can improve the model
+
+============================================
+
+
+
+
+

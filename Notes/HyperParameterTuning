@@ -1,0 +1,56 @@
+HyperParameter Tuning
+How do we tune hyperparameters
+1. Select the most influential parameters
+a. There are tons of parameters and we can’t tune all of them
+2. Understand, how exactly they influence the training 3. Tune them!
+a. Manually (change and examine) b. Automatically(hyperopt,etc.)
+
+• A lot of libraries to try:
+– Hyperopt
+– Scikit-optimize – Spearmint
+– GPyOpt
+– RoBO
+– SMAC3
+=================================
+Tree-based models
+– GBDT: XGBoost, LightGBM, CatBoost 
+– RandomForest/ExtraTrees : scikit-learn
+
+GBDT
+ XGBoost
+• max_depth (increase if model underfits, decrease if overfits)
+• subsample
+• colsample_bytree,
+colsample_bylevel
+• ** min_child_weight, lambda, alpha (increase to reduce overfitting, decrease to allow fit)
+• eta  (too high model will not converge, too small model will learn nothing)
+num_round
+Others:
+• seed
+
+LightGBM
+• max_depth/num_leaves 
+• bagging_fraction
+• feature_fraction
+• ** min_data_in_leaf, lambda_l1, lambda_l2
+• learning_rate num_iterations
+Others: • *_seed
+
+
+RandomForest/ExtraTrees
+N-estimators start with 10 (higher the better)
+max_depth(7)
+max_features 
+** min_samples_leaf
+rf = RandomForestClassifier(n_estimators=500, max_depth=4, n_jobs=-1)
+rf.fit(X_train, y_train)
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=4, max_features='auto', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=500, n_jobs=-1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+
+============================
+

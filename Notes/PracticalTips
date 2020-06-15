@@ -1,0 +1,73 @@
+https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/
+
+https://github.com/Far0n/kaggletils
+==================================
+
+Define your goals. What you can get out of your participation?
+1. To learn more about an interesting problem
+2. To get acquainted with new software tools
+3. To hunt for a medal
+
+1. Organize ideas in some structure
+2. Select the most important and promising ideas
+3. Try to understand the reasons why something
+does/doesn’t work
+
+Sort all parameters by these principles:
+1. Importance
+2. Feasibility
+3. Understanding
+Note: changing one parameter can affect the whole pipeline
+
+• Do basic preprocessing and convert csv/txt files into
+hdf5/npy for much faster loading
+• Do not forget that by default data is stored in 64-bit arrays,
+most of the times you can safely downcast it to 32-bits
+• Large datasets can be processed in chunks
+
+Extensive validation is not always needed
+• Start with fastest models - LightGBM
+
+• Don’t pay too much attention to code quality
+• Keep things simple: save only important things
+• If you feel uncomfortable with given computational
+resources - rent a larger server
+
+• Start with simple (or even primitive) solution
+• Debug full pipeline
+− From reading data to writing submission file
+• “From simple to complex”
+− I prefer to start with Random Forest rather than Gradient Boosted Decision Trees
+
+
+• Use good variable names
+− If your code is hard to read — you definitely will have
+problems soon or later
+• Keep your research reproducible
+− Fix random seed
+− Write down exactly how any features were generated
+− Use Version Control Systems (VCS, for example, git)
+• Reuse code
+− Especially important to use same code for train and test stages
+
+
+• Read forums and examine kernels first
+– There are always discussions happening!
+• Start with EDA and a baseline
+– To make sure the data is loaded correctly
+– To check if validation is stable
+• I add features in bulks
+– At start I create all the features I can make up
+– I evaluate many features at once (not “add one and
+evaluate”)
+• Hyperparameters optimization
+– First find the parameters to overfit train dataset
+– And then try to trim model
+
+
+• Very important to have reproducible results! – Keep important code clean
+• Long execution history leads to mistakes
+• Your notebooks can become a total mess
+
+
+

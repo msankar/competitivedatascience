@@ -1,0 +1,163 @@
+HyperParameter Tuning
+How do we tune hyperparameters
+1. Select the most influential parameters
+a. There are tons of parameters and we can’t tune all of them
+2. Understand, how exactly they influence the training 3. Tune them!
+a. Manually (change and examine) b. Automatically(hyperopt,etc.)
+
+• A lot of libraries to try:
+– Hyperopt
+– Scikit-optimize – Spearmint
+– GPyOpt
+– RoBO
+– SMAC3
+=================================
+Tree-based models
+– GBDT: XGBoost, LightGBM, CatBoost 
+– RandomForest/ExtraTrees : scikit-learn
+
+GBDT
+ XGBoost
+• max_depth (increase if model underfits, decrease if overfits)
+• subsample
+• colsample_bytree,
+colsample_bylevel
+• ** min_child_weight, lambda, alpha (increase to reduce overfitting, decrease to allow fit)
+• eta  (too high model will not converge, too small model will learn nothing)
+num_round
+Others:
+• seed
+
+LightGBM
+• max_depth/num_leaves 
+• bagging_fraction
+• feature_fraction
+• ** min_data_in_leaf, lambda_l1, lambda_l2
+• learning_rate num_iterations
+Others: • *_seed
+
+
+RandomForest/ExtraTrees
+N-estimators start with 10 (higher the better)
+max_depth(7)
+max_features 
+** min_samples_leaf
+rf = RandomForestClassifier(n_estimators=500, max_depth=4, n_jobs=-1)
+rf.fit(X_train, y_train)
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=4, max_features='auto', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=500, n_jobs=-1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+
+============================
+Neural nets
+– Pytorch, Tensorflow, Keras...
+
+Neural Nets
+• Number of neurons per layer
+• Number of layers
+• Optimizers
+– ** SGD + momentum
+– Adam/Adadelta/Adagrad/...
+• In practice lead to more overfitting
+• Batch size (32 or 64)
+• Learning rate
+• Regularization
+– ** L2/L1 for weights
+– ** Dropout/Dropconnect
+– ** Static dropconnect
+
+===========================
+Linear models
+• Scikit-learn
+– SVC/SVR
+• Sklearn wraps libLinear and libSVM
+• Compile yourself for multicore support
+– LogisticRegression/LinearRegression +
+regularizers
+– SGDClassifier/SGDRegressor
+• Vowpal Wabbit
+– FTRL
+
+• Regularization parameter (C, alpha, lambda, …)
+– Start with very small value and increase it.
+– SVC starts to work slower as C increases
+• Regularization type
+– L1/L2/L1+L2 -- try each
+– L1 can be used for feature selection
+
+============================
+• Don’t spend too much time tuning hyperparameters
+– Only if you don’t have any more ideas or you have
+spare computational resources
+• Be patient
+– It can take thousands of rounds for GBDT or neural
+nets to fit
+• Average everything
+– Over random seed
+– Or over small deviations from optimal parameters
+• e.g. average max_depth=4,5,6 for an optimal 5
+=================================
+
+What can we do to deal with overfitting in LightGBM?
+Increase min_datainLeaf, Decrease leaves
+
+What of the following parameter changes speed-up training process for LightGBM? That is, time needed for one boosting iteration is decreased
+decrease numLeaves, decrease bagging fraction
+
+How usually training time of SVM changes if we increase the value of parameter "C"?
+Training time increases
+
+
+=================================
+
+Question 1
+Which hyperparameters are first to tune in sklearn's RandomForest?
+Correct answers:
+
+n_estimators, max_depth, min_samples_split Yes! These parameters are important. The first one should just be sufficiently large, you do not actually need to tune it.
+Incorrect answers:
+
+n_jobs, random_state, verbose. Some of these parameters can even change the result of the training but only because of randomness involved. They are for sure not the parameters to tune.
+bootstrap, oob_score, warm_start. These parameters are not what you want to tune in the model!
+Question 2
+Suppose you fit LightGBM to your train data and check performance on the validation set. The train set consists of 500 rows and 1000 different features and validation set consist of 50 objects. You run automatic hyperparameter optimization method overnight and in the morning you select the best parameters, produce results for the test set and submit to the leaderboard. We also know that test set comes from the same distribution as train and validation sets.
+Correct answers:
+
+There is a high chance of overfitting to the validation set. That is, there is a high chance that score on the test set will be bad. This is because we've tried too much hyperparameters while the dataset is small and the number of features is large. Correct! This is because of multiple comparisons fallacy.
+Incorrect answers:
+
+There is a low chance of overfitting to the validation set. That is, there is a high chance that score on the test set will be good. This is because we found good parameters on validation set and test set is similar to the test set. The fact that test and validation sets come from the same distribution does not make them similar in terms of optimal hyperparameters.
+Question 3
+Suppose you want to find a good set of hyperparameters for a dataset with 1000 points and have resources to do fitting 2000 times. Which method of model selection your should use?
+Correct answers:
+
+k-Fold scheme (i.e. split data into k part, use k-1 parts for training and the last one for quality estimation; repeat for each part). Yes! It is easy to note than we will check 2000 / k sets of hyperparameters -- this number still big enough (for typical k in [3,..,10]), but this scheme is much more robust.
+Incorrect answers:
+
+Hold-Out scheme (i.e. divide data into two parts, use first for model fitting and second for estimation of quality). See previous question for detailed explanation.
+Select model by quality on training set (i.e. fit model on whole dataset and measure quality on the same data). This is overfitting. Such way cannot be used to estimating quality of model.
+Leave-one-out validation (i.e. fit model for all points except one and estimate quality for this single point; repeat for every point). Since LOO requires 1000 fittings for single set of hyperparameters, we can estimate only 2 combinations of hyperparameters -- it's way too small.
+Question 4
+Suppose you train Neural Network with SGD and see that it overfits data. Which of the following actions can help you to regularize model?
+Correct answers:
+
+Insert (or increase rate of) Dropout layers inside NN. Yes, Dropout is a known way to regularize model via dropping some randomly selected features at every step.
+Add (or increase) Weight Decay. Weight Decay is essentially the same thing as L2 Regularization.
+Reduce number of parameters (e.g. remove some layers) Reducing number of parameters make model less flexible and harder to overfit
+Incorrect answers:
+
+Change optimization method to Adam. Adam is a better optimizer than SGD, thus overfits training data better and faster.
+Add more layers. No, this will increase complexity of neural net and do not introduce any regularization effect.
+
+========================
+Tuning the hyper-parameters of an estimator (sklearn)
+Optimizing hyperparameters with hyperopt
+Complete Guide to Parameter Tuning in Gradient Boosting (GBM) in Python
+
+
+
+
