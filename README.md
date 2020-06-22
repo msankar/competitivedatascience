@@ -7,4 +7,6 @@ Learning some techniques used in competitive data science
 * Data Leaks
 * Metrics Optimization and mean encodings
 * Hyperparameter Optimization
+* Ensemble techniques
+* Stacking
 * Final Project
